@@ -203,6 +203,8 @@ class PlaylistVideoView(View):
 
         return render(request, self.template_name, context)
 
+# assdasd
+
 
 class LoginView(View):
     template_name = "login.html"
