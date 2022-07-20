@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+     'storages',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +146,13 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 LOGOUT_REDIRECT_URL = ''
+
+
+#Amazon S3 Configuration
+AWS_ACCESS_KEY_ID = 'AKIAVJLRCS2ISMAFBIKB'  #存取金鑰ID
+AWS_SECRET_ACCESS_KEY = 'GLeya/0U5APAbnk3sm93Gyku7jeOEhS9cBChuFmW'  #私密存取金鑰
+AWS_STORAGE_BUCKET_NAME = 'aifreeteam'  #Amazon S3儲存體名稱
+
+AWS_S3_FILE_OVERWRITE = True  #同名檔案是否要覆寫
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' #上傳的媒體檔案

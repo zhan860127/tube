@@ -95,7 +95,7 @@ class VideoView(View):
             "video_type": video_by_id.path.split(".")[-1],
             "liked": False
         }
-
+        print("video_by_id.path"+video_by_id.path)
         # Handle case if video is private and not owned by user
         if video_by_id.is_private and request.user.id != video_by_id.user_id:
             return render(request, "error.html", {'error': "Error: Invalid video URL. video does not exist!"})
@@ -381,28 +381,32 @@ class NewVideoView(View):
             hash = sha256(hash_str.encode())
             path = hash.hexdigest()[:10] + "_" + video.name
             video.name = path
-
+            print("path："+path)
             # Create and save video object
             new_video = Video(
                 title=title,
                 description=description,
                 user=request.user,
-                path="/media/" + path,
+                path="https://aifreeteam.s3.ap-northeast-1.amazonaws.com/" + path,
                 video=video,
                 is_private=is_private,
                 likes=[]
             )
             new_video.save()
-
+            path="https://aifreeteam.s3.ap-northeast-1.amazonaws.com/" + path
             # Generate thumbnail for video
             dir_path = os.path.dirname(
                 os.path.dirname(os.path.realpath(__file__)))
 
             video_input_path = dir_path + '/media/' + path
-            img_output_path = dir_path + '/media/' + path + '.jpg'
+             
+            img_output_path = path + '.jpg'
+            print("#############################")
             os.system('ffmpeg -i {ip} -ss 00:00:00.000 -vframes 1 {op}'.format(
-                ip=video_input_path, op=img_output_path))
-
+                ip=path, op=img_output_path))
+            print("path"+path)
+            print("path"+img_output_path)
+            print("#############################")
             # redirect to detail view template of a Video
             return HttpResponseRedirect('/video/{id}'.format(id=new_video.id))
         else:
