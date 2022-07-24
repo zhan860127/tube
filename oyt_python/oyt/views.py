@@ -27,6 +27,9 @@ import random
 import time
 import os
 import subprocess
+import re
+from django.core.files import File
+import skimage
 
 
 class LogoutView(View):
@@ -380,33 +383,36 @@ class NewVideoView(View):
 
             hash = sha256(hash_str.encode())
             path = hash.hexdigest()[:10] + "_" + video.name
+
+            path = "https://d1h1zap4aunwkf.cloudfront.net/" + path
+
+            path = re.sub('\s', '', path)
+            re.sub('\s', '', video.name)
+            img_output_path = path + '.jpg'
             video.name = path
-            print("path："+path)
             # Create and save video object
             new_video = Video(
                 title=title,
                 description=description,
                 user=request.user,
-                path="https://aifreeteam.s3.ap-northeast-1.amazonaws.com/" + path,
-                video=video,
+                path=path,
+                img_path=path + '.jpg',
+                img=skimage.io.imread("output.jpg"),
                 is_private=is_private,
                 likes=[]
             )
             new_video.save()
-            path="https://aifreeteam.s3.ap-northeast-1.amazonaws.com/" + path
+
             # Generate thumbnail for video
             dir_path = os.path.dirname(
                 os.path.dirname(os.path.realpath(__file__)))
 
             video_input_path = dir_path + '/media/' + path
-             
-            img_output_path = path + '.jpg'
-            print("#############################")
-            os.system('ffmpeg -i {ip} -ss 00:00:00.000 -vframes 1 {op}'.format(
-                ip=path, op=img_output_path))
+
+            os.system('ffmpeg -i {ip} -ss 00:00:01.000 -vframes 1 output.jpg'.format(
+                ip=path))
             print("path"+path)
             print("path"+img_output_path)
-            print("#############################")
             # redirect to detail view template of a Video
             return HttpResponseRedirect('/video/{id}'.format(id=new_video.id))
         else:

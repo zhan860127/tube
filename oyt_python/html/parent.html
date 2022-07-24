@@ -18,46 +18,51 @@
 <head>
     <title>{% block title %} {% endblock %}</title>
 </head>
-<link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
-    crossorigin="anonymous">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
 <link rel="preconnect" href="https://fonts.gstatic.com">
-<link
-    href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap"
-    rel="stylesheet">
-<link rel="stylesheet"
-    href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css">
 <link rel="stylesheet" href="{% static 'style.css' %}">
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 
 <body>
     <center>
+
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link {% if request.path == '/' %} active {% endif %}"
-                    id="homebtn" href="/"><i class="fab fa-youtube"></i> OYT</a>
+                <a class="nav-link {% if request.path == '/' %} active {% endif %}" id="homebtn" href="/"><i
+                        class="fab fa-youtube"></i> AI Free Team</a>
+                <div class="bodymovinanim">
+
+                </div>
+
+
             </li>
+
             <li class="nav-item">
                 <a class="nav-link {% if request.path|slice:':9' == '/playlist' %} active {% endif %}"
                     href="/playlist_index"><i class="fas fa-play"></i>
                     Playlists</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if request.path == '/new_video' %} active {% endif %}"
-                    href="/new_video"><i class="fas fa-arrow-up"></i> Upload
+                <a class="nav-link {% if request.path == '/new_video' %} active {% endif %}" href="/new_video"><i
+                        class="fas fa-arrow-up"></i> Upload
                     Video</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if request.path == '/new_playlist' %} active {% endif %}"
-                    href="/new_playlist"><i class="fas fa-plus"></i> Create
+                <a class="nav-link {% if request.path == '/new_playlist' %} active {% endif %}" href="/new_playlist"><i
+                        class="fas fa-plus"></i> Create
                     Playlist</a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link {% if request.path == '/edit_user' %} active {% endif %}"
-                    href="/edit_user"><i class="fas fa-pen"></i> Edit
+                <a class="nav-link {% if request.path == '/edit_user' %} active {% endif %}" href="/edit_user"><i
+                        class="fas fa-pen"></i> Edit
                     Profile</a>
             </li>
             </li>
@@ -66,12 +71,10 @@
             </li>
             {% else %}
             <li class="nav-item">
-                <a class="nav-link {% if request.path == '/login' %} active {% endif %}"
-                    href="/login">Sign In</a>
+                <a class="nav-link {% if request.path == '/login' %} active {% endif %}" href="/login">Sign In</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if request.path == '/register' %} active {% endif %}"
-                    href="/register">Sign Up</a>
+                <a class="nav-link {% if request.path == '/register' %} active {% endif %}" href="/register">Sign Up</a>
             </li>
             {% endif %}
 
@@ -80,11 +83,9 @@
                 <form class="d-flex" action="/" method="POST">
                     {% csrf_token %}
 
-                    <input class="form-control me-2" type="search"
-                        placeholder="Search Videos" aria-label="Search"
+                    <input class="form-control me-2" type="search" placeholder="Search Videos" aria-label="Search"
                         name="search_value">
-                    <button class="btn btn-primary" type="submit"><i
-                            class="fas fa-search"></i></button>
+                    <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                 </form>
             </div>
         </ul>
@@ -93,11 +94,9 @@
             <form class="d-flex" action="/playlist_index" method="POST">
                 {% csrf_token %}
 
-                <input class="form-control me-2" type="search"
-                    placeholder="Search Playlists" aria-label="Search"
+                <input class="form-control me-2" type="search" placeholder="Search Playlists" aria-label="Search"
                     name="search_value">
-                <button class="btn btn-primary" type="submit"><i
-                        class="fas fa-search"></i></button>
+                <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
             </form>
         </div>
         {% endif %}
@@ -106,6 +105,36 @@
         {% block body %}
         {% endblock %}
     </center>
+    <script>
+        var iconMenu1 = document.querySelector('.bodymovinanim');
+        let iconMenu = document.querySelector('.bodymovinanim');
+        console.log(iconMenu1);
+        console.log("123");
+        let animationMenu = lottie.loadAnimation({
+            container: iconMenu,
+            renderer: 'svg',
+            loop: false,
+            autoplay: false,
+            path: "https://raw.githubusercontent.com/thesvbd/Lottie-examples/master/assets/animations/calendar.json"
+        });
+
+        var directionMenu = 1;
+        if (iconMenu) {
+            iconMenu.addEventListener('mouseenter', (e) => {
+                console.log("123");
+                animationMenu.setDirection(directionMenu);
+                animationMenu.play();
+            });
+
+
+            iconMenu.addEventListener('mouseleave', (e) => {
+                animationMenu.setDirection(-directionMenu);
+                animationMenu.play();
+            });
+
+        }
+    </script>
+
 </body>
 
 </html>

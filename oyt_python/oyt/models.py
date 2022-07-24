@@ -23,12 +23,15 @@ class Video(models.Model):
     title = models.CharField(max_length=30)
     description = models.CharField(max_length=300)
     path = models.CharField(max_length=1000)
+    img_path = models.CharField(max_length=1000, null=True)
+    img = models.ImageField(null=True)
     datetime = models.DateTimeField(auto_now=True, blank=False, null=False)
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     video = models.FileField(null=True)
     is_private = models.BooleanField(default=False)
     likes = models.JSONField()
     num_likes = models.IntegerField(default=0)
+    tag_id = models.ForeignKey('Tag', on_delete=models.CASCADE, null=True)
 
 
 class Comment(models.Model):
@@ -46,3 +49,8 @@ class Playlist(models.Model):
     description = models.CharField(max_length=300, null=True)
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     video_ids = models.JSONField()
+
+
+class Tag(models.Model):
+    id = models.AutoField(primary_key=True)
+    tag = models.CharField(max_length=100, null=False)

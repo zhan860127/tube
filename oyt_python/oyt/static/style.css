@@ -31,7 +31,7 @@ center a:hover {
 }
 
 #homebtn:hover {
-    color: #9b1515;
+    color: blue;
 }
 
 .container-fluid {
@@ -71,4 +71,12 @@ center a:hover {
 
 .video-js {
     max-width: 90%;
+}
+
+
+.bodymovinanim {
+    width: 90%;
+    max-width: 50px;
+    margin-bottom: 30px;
+    cursor: pointer;
 }

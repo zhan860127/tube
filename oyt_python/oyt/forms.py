@@ -36,9 +36,12 @@ class CommentForm(forms.Form):
 
 class NewVideoForm(forms.Form):
     title = forms.CharField(label='Title', max_length=100)
-    description = forms.CharField(label='Description', max_length=300)
+    description = forms.CharField(
+        widget=forms.Textarea, label='Description', max_length=300)
     is_private = forms.BooleanField(label='Private', required=False)
     video = forms.FileField()
+    tag = forms.CharField(label='Tag', max_length=20,
+                          widget=forms.TextInput(attrs={'class': 'Tagid'}))
 
 
 class EditVideoForm(forms.Form):
