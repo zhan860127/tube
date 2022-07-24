@@ -153,6 +153,4 @@ AWS_DEFAULT_ACL = None
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'  # 上傳的媒體檔案
 
 
-AWS_ACCESS_KEY_ID = 'AKIAVJLRCS2I62TXFQFE'  # 存取金鑰ID
-AWS_SECRET_ACCESS_KEY = 'W8nE7NPZaJmIvvEVkKnkQChFfqH7RHTaLSdL3fX8'  # 私密存取金鑰
-AWS_STORAGE_BUCKET_NAME = 'aifreeteam'  # Amazon S3儲存體名稱
+
