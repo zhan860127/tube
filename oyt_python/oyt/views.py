@@ -12,6 +12,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
+from django import forms
 from django.shortcuts import render
 from django.views.generic.base import View, HttpResponse, HttpResponseRedirect
 from .forms import LoginForm, RegisterForm, NewVideoForm, CommentForm, EditVideoForm, EditUserForm, NewPlaylistForm
@@ -20,7 +21,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import login, authenticate, logout
 from django.db.models import Q
 from django.urls import reverse
-from .models import Video, Comment, Playlist
+from .models import Images, Video, Comment, Playlist
 from hashlib import sha256
 import string
 import random
@@ -29,7 +30,7 @@ import os
 import subprocess
 import re
 from django.core.files import File
-import skimage
+from PIL import Image
 
 
 class LogoutView(View):
@@ -383,12 +384,11 @@ class NewVideoView(View):
 
             hash = sha256(hash_str.encode())
             path = hash.hexdigest()[:10] + "_" + video.name
-
-            path = "https://d1h1zap4aunwkf.cloudfront.net/" + path
-
             path = re.sub('\s', '', path)
-            re.sub('\s', '', video.name)
-            img_output_path = path + '.jpg'
+            a = path
+            path = "https://aifreeteam.s3.ap-northeast-1.amazonaws.com/" + path
+
+            img_output_path = a + '.jpg'
             video.name = path
             # Create and save video object
             new_video = Video(
@@ -396,21 +396,31 @@ class NewVideoView(View):
                 description=description,
                 user=request.user,
                 path=path,
+                video=video,
                 img_path=path + '.jpg',
-                img=skimage.io.imread("output.jpg"),
+                # img=skimage.io.imread("output.jpg"),
                 is_private=is_private,
                 likes=[]
             )
             new_video.save()
-
+            print("##########"+img_output_path)
+            print("##########"+path)
             # Generate thumbnail for video
             dir_path = os.path.dirname(
                 os.path.dirname(os.path.realpath(__file__)))
 
-            video_input_path = dir_path + '/media/' + path
+            os.system('ffmpeg -i {ip} -ss 00:00:01.000 -vframes 1 {op}'.format(
+                ip=path, op=img_output_path))
 
-            os.system('ffmpeg -i {ip} -ss 00:00:01.000 -vframes 1 output.jpg'.format(
-                ip=path))
+            with open(img_output_path, 'rb') as f:
+                new_image = Images(
+
+                    img_path="https://aifreeteam.s3.ap-northeast-1.amazonaws.com/"+img_output_path,
+                    img=File(f)
+                )
+                # video_id=Video.objects.get(id=new_video.id)
+                new_image.save()
+            os.remove(img_output_path)
             print("path"+path)
             print("path"+img_output_path)
             # redirect to detail view template of a Video

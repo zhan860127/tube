@@ -13,7 +13,7 @@
 #    limitations under the License.
 
 from django.contrib import admin
-from .models import Video, Comment, Tag
+from .models import Images, Video, Comment, Tag
 # Register your models here.
 
-admin.site.register([Video, Comment, Tag])
+admin.site.register([Video, Comment, Tag, Images])

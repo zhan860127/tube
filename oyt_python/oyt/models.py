@@ -24,7 +24,6 @@ class Video(models.Model):
     description = models.CharField(max_length=300)
     path = models.CharField(max_length=1000)
     img_path = models.CharField(max_length=1000, null=True)
-    img = models.ImageField(null=True)
     datetime = models.DateTimeField(auto_now=True, blank=False, null=False)
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     video = models.FileField(null=True)
@@ -32,6 +31,13 @@ class Video(models.Model):
     likes = models.JSONField()
     num_likes = models.IntegerField(default=0)
     tag_id = models.ForeignKey('Tag', on_delete=models.CASCADE, null=True)
+
+
+class Images(models.Model):
+    img_path = models.CharField(max_length=1000, null=True)
+    img = models.FileField(null=True)
+    id = models.AutoField(primary_key=True)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, null=True)
 
 
 class Comment(models.Model):
